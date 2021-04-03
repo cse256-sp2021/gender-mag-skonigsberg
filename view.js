@@ -1,7 +1,9 @@
 // ---- Define your dialogs  and panels here ----
+let selectedPath = "";
+let effectivePermResults = define_new_effective_permissions("permCol",true)
 
-
-
+let dialogRes =  define_new_dialog("dialog", "Permission");
+let userSelectResult = define_new_user_select_field("user", "Select User to View Their Permissions", function(selected_user){$('#permCol').attr('username',selected_user)});
 // ---- Display file structure ----
 
 // (recursively) makes and returns an html element (wrapped in a jquery object) for a given file object
@@ -14,6 +16,7 @@ function make_file_element(file_obj) {
                 <span class="oi oi-folder" id="${file_hash}_icon"/> ${file_obj.filename} 
                 <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
                     <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> 
+                    Edit Permissions 
                 </button>
             </h3>
         </div>`)
@@ -34,6 +37,7 @@ function make_file_element(file_obj) {
             <span class="oi oi-file" id="${file_hash}_icon"/> ${file_obj.filename}
             <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
                 <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> 
+                Edit Permissions
             </button>
         </div>`)
     }
@@ -62,7 +66,7 @@ $('.permbutton').click( function( e ) {
     perm_dialog.attr('filepath', path)
     perm_dialog.dialog('open')
     //open_permissions_dialog(path)
-
+    selectedPath = perm_dialog.attr('filepath')
     // Deal with the fact that folders try to collapse/expand when you click on their permissions button:
     e.stopPropagation() // don't propagate button click to element underneath it (e.g. folder accordion)
     // Emit a click for logging purposes:
@@ -72,3 +76,29 @@ $('.permbutton').click( function( e ) {
 
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $('#html-loc').find('*').uniqueId() 
+
+$('#sidepanel').append(effectivePermResults);
+$('#sidepanel').prepend(userSelectResult);
+
+
+//permissions explanation
+$('.perm_info').click(function(){
+    var stringPath = selectedPath.toString();
+
+    console.log('clicked!')
+    dialogRes.dialog('open')
+    console.log(stringPath)
+    console.log($('#permCol').attr('username'))
+    console.log($(this).attr('permission_name'))
+
+   
+    let fileObject  = path_to_file[stringPath]
+    let fileNameString = fileObject.filename;
+    let  userObject = all_users[$('#permCol').attr('username')]
+    let permObject =  $(this).attr('permission_name')
+
+    let userActionRes = allow_user_action(fileObject, userObject, permObject, true)
+    let explanationRes = get_explanation_text(userActionRes, userObject, fileNameString, permObject)
+    dialogRes.text(explanationRes)
+})
+

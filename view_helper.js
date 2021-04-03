@@ -446,7 +446,7 @@ user_select_dialog = define_new_dialog('user_select_dialog2', 'Select User', {
             },
         },
         OK: {
-            text: "OK",
+            text: "Done",
             id: "user_select_ok_button",
             click: function() {
                 // When "OK" is clicked, we want to populate some other element with the selected user name 
@@ -502,14 +502,13 @@ function define_new_user_select_field(id_prefix, select_button_text, on_user_cha
 //---- misc. ----
 
 // Get a (very simple) text representation of a permissions explanation
-function get_explanation_text(explanation) {
-    return `
-    Action allowed?: ${explanation.is_allowed}; 
-    Because of
-    permission set for file: ${explanation.file_responsible?get_full_path(explanation.file_responsible):'N/A'}
-    and for user: ${ explanation.ace_responsible ? get_user_name(explanation.ace_responsible.who) : 'N/A' }
-    ${ explanation.text_explanation ? `(${explanation.text_explanation})`  : '' }
-    `
+function get_explanation_text(explanation, user, file, permission) {
+    if (explanation.is_allowed){
+        return  user + " CAN " + permission + " on " + file 
+    } else{
+        return user + " CANNOT " + permission + " on " + file 
+    }
+
 }
 
 //---- some universal HTML set-up so you don't have to do it in each wrapper.html ----
