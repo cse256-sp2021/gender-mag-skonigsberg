@@ -139,13 +139,13 @@ function define_single_select_list(id_prefix, on_selection_change = function(sel
 }
 
  
-// define an element which will display effective permissions for a given file and user
+// define an element which will display View Permissions for a given file and user
 // It expects the file path to be stored in its *filepath* attribute, 
 // and the user name to be stored in its *username* attribute 
-// when either changes, the panel attempts to recalculate the effective permissions.
+// when either changes, the panel attempts to recalculate the View Permissions.
 // - id_prefix is a (required) unique string which will be prepended to all the generated elements.
 // - add_info_col is a boolean for whether you want a third column with "info" buttons (which do nothing by default)
-// - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
+// - returns the jquery object for the View Permissions panel, ready to be attached/appended anywhere you want it.
 function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null){
     // Set up the table:
     let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)

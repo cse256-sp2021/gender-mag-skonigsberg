@@ -1,9 +1,16 @@
 // ---- Define your dialogs  and panels here ----
 let selectedPath = "";
 let effectivePermResults = define_new_effective_permissions("permCol",true)
-
+let text = "<b> Select a user and a file to view current permissions <br></b>"
 let dialogRes =  define_new_dialog("dialog", "Permission");
 let userSelectResult = define_new_user_select_field("user", "Select User to View Their Permissions", function(selected_user){$('#permCol').attr('username',selected_user)});
+var selectFile = `<select name- "files" id = "select-file" onchange="changeFile()">`;
+    for( var element in path_to_file){
+        selectFile += `<option value="${element}">${element}</option>`
+    }
+selectFile += `</select>`
+
+
 // ---- Display file structure ----
 
 // (recursively) makes and returns an html element (wrapped in a jquery object) for a given file object
@@ -66,18 +73,27 @@ $('.permbutton').click( function( e ) {
     perm_dialog.attr('filepath', path)
     perm_dialog.dialog('open')
     //open_permissions_dialog(path)
-    selectedPath = perm_dialog.attr('filepath')
+    //selectedPath = perm_dialog.attr('filepath')
     // Deal with the fact that folders try to collapse/expand when you click on their permissions button:
     e.stopPropagation() // don't propagate button click to element underneath it (e.g. folder accordion)
     // Emit a click for logging purposes:
     emitter.dispatchEvent(new CustomEvent('userEvent', { detail: new ClickEntry(ActionEnum.CLICK, (e.clientX + window.pageXOffset), (e.clientY + window.pageYOffset), e.target.id,new Date().getTime()) }))
 });
 
-
+// function
+function changeFile(){
+    var file_name = document.getElementById("select-file").value;
+    $('#permCol').attr('filepath', file_name)
+}
 // ---- Assign unique ids to everything that doesn't have an ID ----
 $('#html-loc').find('*').uniqueId() 
 
 $('#sidepanel').append(effectivePermResults);
+
+
+$('#sidepanel').prepend(selectFile);
+
+$('#sidepanel').prepend(text);
 $('#sidepanel').prepend(userSelectResult);
 
 
