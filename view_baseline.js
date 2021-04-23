@@ -12,7 +12,7 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     buttons: {
        
         Advanced: {
-            text: "More Permission",
+            text: "More Permissions",
             id: "perm-dialog-advanced-button",
             click: function() {
                 open_advanced_dialog(perm_dialog.attr('filepath'))
@@ -31,9 +31,9 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
 // Make the initial "Object Name:" text:
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
 obj_name_div = $('<div id="permdialog_objname" class="section">Object Name: <span id="permdialog_objname_namespan"></span> </div>')
-inherited_explanation_div = $('<div id="inherited_explantion_text"><i><b>Shaded text boxes imply that the permission is inherited: meaning the permission settings stem from a user or group that is higher up. </b></i></div>')
+inherited_explanation_div = $('<div id="inherited_explantion_text"><b>Shaded text boxes imply that the permission is inherited: meaning the permission settings stem from a user or group that is higher up. That being said, the deny box overwrites any inherited permissions.</b></div>')
 //Make the div with the explanation about special permissions/advanced settings:
-advanced_expl_div = $('<div id="permdialog_advanced_explantion_text"><br>For special permissions or advanced settings, click Advanced.</div>')
+advanced_expl_div = $('<div id="permdialog_advanced_explantion_text"><br>For special permissions or further settings, click More Permissions.</div>')
 
 // Make the (grouped) permission checkboxes table:
 grouped_permissions = define_grouped_permission_checkboxes('permdialog_grouped_permissions')

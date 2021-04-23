@@ -116,7 +116,7 @@ function define_single_select_list(id_prefix, on_selection_change = function(sel
             // store info about what item was selected:
             selected_item_name = $(ui.selected).attr('name')
             $( this ).attr('selected_item', selected_item_name)
-
+            
             on_selection_change(selected_item_name, e, ui)
 
             emitter.dispatchEvent(new CustomEvent('userEvent', { 
